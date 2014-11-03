@@ -1,0 +1,36 @@
+{
+
+	"name": "composer/payment-php",
+    "description": "Payment library helps you to connect to the payment API using a pure PHP language without framework.",
+    "keywords": ["package", "dependency", "autoload", "wrapper","php","library","payment"],
+    "homepage": "http://www.t2mgroup.com/",
+    "type": "library",
+    "license": "",
+    "authors": [
+        {
+            "name": "Jhonnatan Rodriguez"        
+        },
+        {
+            "name": "Francisco Perez"    
+        },
+        {
+            "name": "Alexander Butenko"
+            
+        },
+        {
+            "name": "Kamel Bacha"
+        }
+
+    ],
+    "support": {
+        "email": "support@t2mgroup.com",
+    },
+    "require": {
+        "php": "*"
+    },
+    "suggest": {
+        "ext-zip": "Enabling the zip extension allows you to unzip archives, and allows gzip compression of all internet traffic",
+        "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages"
+    }
+
+}
