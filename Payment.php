@@ -146,6 +146,9 @@ class Payment {
             $resp->Approved = true;
 
         /// Convert ExtData
+        if (empty ($data->ExtData))
+            return $resp;
+
         // Split plain data and XML into $matches array
         preg_match ('/([,=0-9a-zA-Z]*)(\<.*\>)?/', $data->ExtData, $matches);
         if (count ($matches) == 1)
