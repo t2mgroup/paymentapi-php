@@ -174,29 +174,31 @@ class Payment {
 
     function post () {
         $data = $this->prepare ();
-        try {
-            $ch = curl_init();
-            curl_setopt ($ch, CURLOPT_URL, $this->url);
-            curl_setopt ($ch, CURLOPT_POST, 1);
-            curl_setopt ($ch, CURLOPT_POSTFIELDS, http_build_query ($data));
-            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt ($ch, CURLOPT_TIMEOUT, 120);
-            $xmlRaw = curl_exec ($ch);
-            curl_close ($ch);
-            $this->formData = Array();
-
-            if ($this->stringStartsWith ($xmlRaw, "<?xml")) {
-                return $this->convertResponse ($xmlRaw);
-            } else {
-                $resp = new stdClass;
-                $resp->Result = -999;
-                $resp->Message = "Gateway error: " . $xmlRaw;
-                return $resp;
-            }
-        } catch (Exception $e) {
+        $ch = curl_init();
+        curl_setopt ($ch, CURLOPT_URL, $this->url);
+        curl_setopt ($ch, CURLOPT_POST, 1);
+        curl_setopt ($ch, CURLOPT_POSTFIELDS, http_build_query ($data));
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt ($ch, CURLOPT_TIMEOUT, 120);
+        $xmlRaw = curl_exec ($ch);
+        if($xmlRaw === false) {
             $resp = new stdClass;
+            $resp->Approved = false;
             $resp->Result = -999;
-            $resp->Message = "Gateway error: " . $e->getMessage();
+            $resp->Message = "Gateway error: " . curl_error($ch);
+            return $resp;
+        }
+
+        curl_close ($ch);
+        $this->formData = Array();
+
+        if ($this->stringStartsWith ($xmlRaw, "<?xml")) {
+            return $this->convertResponse ($xmlRaw);
+        } else {
+            $resp = new stdClass;
+            $resp->Approved = false;
+            $resp->Result = -999;
+            $resp->Message = "Gateway error: " . $xmlRaw;
             return $resp;
         }
     }
