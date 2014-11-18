@@ -110,7 +110,7 @@ class Payment {
 
         // fix amounts
         foreach ($this->amountFields as $f) {
-            if ($this->formData [$f])
+            if (!empty ($this->formData [$f]))
                 $this->formData [$f] =  number_format($this->formData [$f], 2, ".","");
         }
  
@@ -142,7 +142,7 @@ class Payment {
         }
 
         // Add Approved value
-        if (!empty ($resp->Result) && $resp->Result == '0')
+        if (isset ($resp->Result) && $resp->Result == '0')
             $resp->Approved = true;
 
         /// Convert ExtData
@@ -160,6 +160,9 @@ class Payment {
             }
         }
         // Process XML part
+        if (empty ($matches[2]))
+            return $resp;
+
         $xmlData = json_decode (json_encode (simplexml_load_string ("<d>" . $matches[2] . '</d>')));
         if ($xmlData) {
             foreach ($xmlData as $key => $val)
