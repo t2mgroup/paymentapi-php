@@ -196,7 +196,7 @@ class Payment {
         } catch (Exception $e) {
             $resp = new stdClass;
             $resp->Result = -999;
-            $resp->Message = "Gateway error: " . $xmlRaw;
+            $resp->Message = "Gateway error: " . $e->getMessage();
             return $resp;
         }
     }
