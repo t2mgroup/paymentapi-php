@@ -1,13 +1,14 @@
 <?php
 include('../Payment.php');
-$payment = new Payment ("JhonnDev","U0H464z4");
+$payment = new Payment ("demo","demo");
+$payment->setGatewayUrl = "https://secure.suregate.net/ws/transact.asmx/ProcessCreditCard";
 
 $data['NameOnCard']= "Jhonny";
 $data['CardNum']="5149612222222229";
-$data['ExpDate']="1214";
+$data['ExpDate']="1215";
 $data['Amount']="18";
 $data['CVNum']="734";
-$data['InvNum']="ABD41";
+$data['InvNum']="ABD42";
 $data['Zip']="36124";
 $data['Street']="Gran vio 25";
 $data['Customer']="John Developer";
