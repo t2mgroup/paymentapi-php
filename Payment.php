@@ -135,7 +135,16 @@ class Payment {
         $resp->Approved = false;
 
         $data = json_decode (json_encode (simplexml_load_string ($xml)));
+
         // Cleanup array
+        if (!isset ($data->Message))
+            $data->Message = "";
+
+        if (!empty ($data->RespMSG)) {
+            $data->Message .= " " . $data->RespMSG;
+            unset ($data->RespMSG);
+        }
+
         foreach ($data as $key => $value) {
             if (!is_object ($value) && $key != 'ExtData')
                 $resp->$key = $value;
@@ -162,6 +171,7 @@ class Payment {
                 $resp->$key = $val;
             }
         }
+
         // Process XML part
         if (empty ($matches[2]))
             return $resp;
